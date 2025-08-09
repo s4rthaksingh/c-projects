@@ -7,7 +7,7 @@ void main(){
 	int task;
 	int i;
 	char c;
-	printf("What do you want to do today?\n\n1. Add a new task\n2. View tasks\n3. Delete a task\n4. Clear list\n\nType the respective number : ");
+	printf("What do you want to do today?\n\n1. Add a new task\n2. View tasks\n3. Edit a task\n4. Delete a task\n5. Clear list\n\nType the respective number : ");
 	scanf(" %d",&task);
 	if(task != 1){
 		fptr=fopen("todos.txt","r");
@@ -20,12 +20,12 @@ void main(){
 	}
 	switch(task){
 	case 1:
-		char newtask[50];
+		char new[256];
 		printf("Enter new task : ");
 		while (getchar() != '\n');
-		fgets(newtask,50,stdin);
+		fgets(new,256,stdin);
 		fptr = fopen("todos.txt","a");
-		fprintf(fptr,"%s",newtask);
+		fprintf(fptr,"%s",new);
 	       	fclose(fptr);	
 		printf("Added that task to your to-do list\n");
 		break;
@@ -51,13 +51,40 @@ void main(){
 		putchar('\n');
 		break;
 	case 3:
+		int toedit;                           
+		printf("Enter task # you want to edit : ");       
+		scanf("%d",&toedit);
+		char buff[256];
+		char newtask[256];
+		i=1;
+		char newl[25600] = "\0";    
+		fptr = fopen("todos.txt", "r");     
+		while(fgets(buff, sizeof(buff), fptr) != NULL){
+                if(i==toedit){
+			printf("Enter the edited task : ");
+			while (getchar() != '\n');
+			fgets(newtask,256,stdin);
+			strcat(newl,newtask);
+			i++;
+		}
+                else{
+                        strcat(newl,buff);
+                        i++;
+                }}
+                fclose(fptr);
+                fptr = fopen("todos.txt","w");
+                fprintf(fptr,"%s",newl);
+                fclose(fptr);
+                printf("Succesfully edited task #%d\n",toedit);
+                break;
+	case 4:
 		int todelete;
 		printf("Enter task # you want to delete : ");
 		scanf("%d",&todelete);
 		
-		char buffer[50];
+		char buffer[256];
 		i=1;
-		char newlist[5000] = "\0";
+		char newlist[25600] = "\0";
 		fptr = fopen("todos.txt", "r");
 		while(fgets(buffer, sizeof(buffer), fptr) != NULL){
 		if(i==todelete)
@@ -72,7 +99,7 @@ void main(){
 		fclose(fptr);
 		printf("Succesfully deleted task #%d\n",todelete);
 		break;
-	case 4:
+	case 5:
 		char *filename = "todos.txt";   	
 		remove(filename);
                 printf("Cleared your list.\n");
