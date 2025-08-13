@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void main(){
 while(1){
@@ -9,21 +10,22 @@ while(1){
 	getline(&string, &len, stdin);
 	string[strcspn(string,"\n")] = '\0';
 
-	char *copy = string;
-	char temp[56];
+	char *start = string;
+	char reverse[56];
 	while(*string != '\0') string++;
 	string--;	
 	int i = 0;
-	while(string != copy){
-		temp[i] = *string;
+	while(string != start){
+		reverse[i] = *string;
 		string--;	
 		i++;
 	}	
-	temp[i] = *string;
-	temp[i+1] = '\0';
+	reverse[i] = *string;
+	reverse[i+1] = '\0';
 
-	if(strcmp(copy,temp) == 0)
+	if(strcmp(start,reverse) == 0)
 		printf("Palindrome\n");
 	else
 		printf("Not a palindrome\n");
+	free(string);
 }}
