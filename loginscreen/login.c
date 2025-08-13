@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-int indexof(int target, int *arr){
-	int arrsize = sizeof(arr)/sizeof(int);
+int indexof(int target, int *arr, int arrsize){
 	for(int i = 0; i < arrsize; i++)
 		if(arr[i] == target)
 			return i;	
@@ -13,7 +11,7 @@ int indexof(int target, int *arr){
 int main(){
 	int *userids = NULL;
 	int *pins = NULL;
-	int index = 0;
+	int arrsize = 0;
 	int c;
 	int enteredid, enteredpin;
 
@@ -27,7 +25,7 @@ int main(){
 				scanf("%d",&enteredid);
 				printf("Enter pin : ");
 				scanf("%d",&enteredpin);
-				if(indexof(enteredid,userids) == indexof(enteredpin,pins))
+				if(indexof(enteredid,userids,arrsize) == indexof(enteredpin,pins,arrsize) && indexof(enteredid,userids,arrsize)!=-1)
 					printf("Login successful!\n");
 				else
 					printf("Wrong password or user ID\n");
@@ -37,11 +35,11 @@ int main(){
 				scanf("%d",&enteredid);
 				printf("Enter pin : ");
 				scanf("%d",&enteredpin);
-				userids = (int *)realloc(userids, (index+1)*sizeof(int));
-				pins = (int *)realloc(pins, (index+1)*sizeof(int));
-				userids[index] = enteredid;
-				pins[index] = enteredpin;
-				index++;
+				userids = (int *)realloc(userids, (arrsize+1)*sizeof(int));
+				pins = (int *)realloc(pins, (arrsize+1)*sizeof(int));
+				userids[arrsize] = enteredid;
+				pins[arrsize] = enteredpin;
+				arrsize++;
 				printf("Successfully registered, now you may login.");
 				break;	
 		}
