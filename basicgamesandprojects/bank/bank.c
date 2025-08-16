@@ -71,6 +71,16 @@ int authenticate(char *email, char *pass){
 	return 0;
 }
 
+void changebalance(char *email, float bal){
+	User *accounts = NULL;
+	int count = getaccounts(&accounts);
+	FILE *fptr = fopen("data.bin", "wb");
+	for(int i = 0; i < count; i++)
+		if(strcmp(accounts[i].email, email) == 0)
+			accounts[i].balance = bal;
+	fwrite(accounts, sizeof(User), count, fptr);
+	fclose(fptr);
+}
 
 int main()
 {
@@ -80,6 +90,7 @@ int main()
 
 	switch(choice){
 		char email[320], pass[256];
+		float bal;
 		case 1:
 			printf("Enter your email (maximum 320 characters) : ");
 			scanf("%s", email);
@@ -101,17 +112,34 @@ int main()
 			printf("Enter your password : ");
 			scanf("%s", pass);
 			
+			bal = getbalance(email);
+			if(bal == -1){
+				printf("Account doesn't exist\n");
+				break;
+			}
 			if(!authenticate(email, pass)){
 				printf("Wrong password\n");			
 				break;
 				}	
-			float bal = getbalance(email);
-			if(bal == -1)
-				printf("Account doesn't exist\n");
 			else
 				printf("Your current balance : %.2f\n", bal);
 			break;
-		case 3:
+		case 3:				
+			printf("Enter your email : ");
+			scanf("%s", email);
+			printf("Enter your password : ");
+			scanf("%s", pass);
+			if(!authenticate(email, pass)){
+				printf("Wrong email or password\n");			
+				break;
+				}	
+			bal = getbalance(email);
+			float deposit;	
+			printf("Enter amount you want to deposit : ");
+			scanf("%f", &deposit);
+			changebalance(email, bal+deposit);
+			printf("Successfully deposited %.2f to your account\nYour current balance is %.2f\n",deposit,getbalance(email));	
+			
 			break;
 		case 4:
 			break;
