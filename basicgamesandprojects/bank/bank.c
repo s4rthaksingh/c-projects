@@ -62,6 +62,15 @@ float getbalance(char *email)
 	return -1;
 }
 
+int authenticate(char *email, char *pass){
+	User *accounts = NULL;
+	int count = getaccounts(&accounts);
+	for(int i = 0; i < count; i++)
+		if(strcmp(accounts[i].email, email) == 0 && strcmp(accounts[i].password, pass) == 0)
+			return 1;
+	return 0;
+}
+
 
 int main()
 {
@@ -92,11 +101,15 @@ int main()
 			printf("Enter your password : ");
 			scanf("%s", pass);
 			
+			if(!authenticate(email, pass)){
+				printf("Wrong password\n");			
+				break;
+				}	
 			float bal = getbalance(email);
 			if(bal == -1)
-				printf("Account doesn't exist");
+				printf("Account doesn't exist\n");
 			else
-				printf("Your current balance : %.2f", bal);
+				printf("Your current balance : %.2f\n", bal);
 			break;
 		case 3:
 			break;
