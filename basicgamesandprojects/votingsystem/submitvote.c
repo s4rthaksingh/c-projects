@@ -23,6 +23,15 @@ int getvotes(Vote **arr){
 	return i;
 }
 
+void printvotes(){
+	Vote v;
+	FILE *fptr = fopen("votes.bin","rb");
+	while(fread(&v, sizeof(Vote), 1, fptr))
+		printf("User : %s, Candidate ID : %d\n", v.username, v.candidateid);
+	
+	fclose(fptr);
+}
+
 int main(){
 	FILE *fptr;
 	
@@ -55,10 +64,8 @@ int main(){
 	fclose(fptr);	
 
 	printf("Successfully counted your vote\n");
-	fptr = fopen("votes.bin","rb");
-	while(fread(&v, sizeof(Vote), 1, fptr))
-		printf("User : %s, Candidate ID : %d\n", v.username, v.candidateid);
 	
-	fclose(fptr);
+	printvotes();
+
 	return 0;
 }
