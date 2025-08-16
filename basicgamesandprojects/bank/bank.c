@@ -170,6 +170,41 @@ int main()
 			printf("Successfully withdrew %.2f from your account\nYour current balance is %.2f\n",withdraw,getbalance(email));	
 			break;
 		case 5:
+			char recipient[320];
+			printf("Enter your email : ");
+                        scanf("%s", email);
+                        printf("Enter your password : ");
+                        scanf("%s", pass);
+                        if(!authenticate(email, pass)){
+                                printf("Wrong email or password\n");
+                                break;
+                                }
+                        bal = getbalance(email);
+			
+			printf("Enter the recipient's email : ");
+			scanf("%s", recipient);
+			if(getbalance(recipient) == -1){
+				printf("Recipient does not exist\n");
+				break;
+			}
+			
+			printf("Enter the amount you want to transfer : ");
+			float transfer;
+			bal = getbalance(email);
+			scanf("%f", &transfer);	
+			if(transfer>bal){
+				printf("You do not have that much amount in your account.\n");
+				break;
+			}
+			if(transfer < 0){
+				printf("You can't transfer negative amounts");
+				break;
+			}
+			
+			changebalance(email, bal-transfer);
+			changebalance(recipient, getbalance(recipient) + transfer);
+			printf("Successfully transferred %.2f to %s\nYour current balance is now %.2f\n", transfer, recipient, getbalance(email));	
 			break;
 	}
+	return 0;
 }
