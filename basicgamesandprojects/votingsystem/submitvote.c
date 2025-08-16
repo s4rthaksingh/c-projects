@@ -1,52 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+	char username[64];
+	int candidateid;
+} Vote;
 
 int main(){
-	char user[64];
-	int candidateid;
 	FILE *fptr;
 	
-	printf("Enter username : ");
-	scanf("%s",user);
+	char username[64];
+	int candidateid;
+	
+	printf("Enter username : ");	
+	scanf("%s",username);
 	printf("Enter ID of the candidate you want to vote : ");
 	scanf("%d",&candidateid);
 
-	fptr = fopen("votes.txt","a");
-	fprintf(fptr, "%s : %d\n", user, candidateid);
+	Vote v;
+	strcpy(v.username, username);
+	v.candidateid = candidateid;
+	
+	fptr = fopen("votes.bin","ab");
+	fwrite(&v, sizeof(Vote), 1, fptr);
 	fclose(fptr);	
 
 	printf("Successfully counted your vote\n");
-
-	char ch;	
-	int i =  0;
-	int ui = 0;
-	int pc = 0;
-	int s = 0;
-	char *users = malloc(0);
-	fptr = fopen("votes.txt","r");
-
-	while((ch = fgetc(fptr)) != EOF){
-		if(ch == ' '){
-			if(pc == 0){
-				users = realloc(users, sizeof(char)*(ui+1));
-				users[ui] = ",";
-				ui++;
-				pc = 1;
-				}
-			else pc = 0;
-			s = 0;
-			}
-		if(ch == '\n' || i == 0)
-			s = 1;
-		if(s == 1 && ch != '\n')
-			{
-
-				users = realloc(users, sizeof(char)*(ui+1));
-				users[ui] = ch;
-				ui++;
-			}
-		i++;
-	}
+	fptr = fopen("votes.bin","rb");
+	while(fread(&v, sizeof(Vote), 1, fptr))
+		printf("User : %s, Candidate ID : %d\n", v.username, v.candidateid);
 	
-	printf("%s",users);
+	fclose(fptr);
 }
