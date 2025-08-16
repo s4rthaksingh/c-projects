@@ -137,11 +137,37 @@ int main()
 			float deposit;	
 			printf("Enter amount you want to deposit : ");
 			scanf("%f", &deposit);
+			if(deposit < 0){
+				printf("You can't deposit negative amounts\n");
+				break;
+			}
 			changebalance(email, bal+deposit);
 			printf("Successfully deposited %.2f to your account\nYour current balance is %.2f\n",deposit,getbalance(email));	
 			
 			break;
 		case 4:
+			printf("Enter your email : ");
+			scanf("%s", email);
+			printf("Enter your password : ");
+			scanf("%s", pass);
+			if(!authenticate(email, pass)){
+				printf("Wrong email or password\n");			
+				break;
+				}	
+			bal = getbalance(email);
+			float withdraw;	
+			printf("Enter amount you want to withdraw : ");
+			scanf("%f", &withdraw);
+			if(withdraw < 0){
+				printf("You can't withdraw negative amounts\n");
+				break;
+			}
+			if(bal < withdraw){
+				printf("You do not have that much amount in your account.\n");
+				break;
+				}
+			changebalance(email, bal-withdraw);
+			printf("Successfully withdrew %.2f from your account\nYour current balance is %.2f\n",withdraw,getbalance(email));	
 			break;
 		case 5:
 			break;
