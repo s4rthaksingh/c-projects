@@ -2,19 +2,19 @@
 
 int main(int argc, char *argv[]){
 	if(argc != 3) {
-		printf("Usage: ./copy <source.txt> <target.txt>\n");
+		printf("Usage: %s <source.txt> <target.txt>\n", argv[0]);
 		return 1;
 	}
 
 	char *src = argv[1];	
 	char *dest = argv[2];
 
-	FILE *srcfile = fopen(src, "r");
+	FILE *srcfile = fopen(src, "rb");
 	if(!srcfile){
 		perror("Error opening source file");
 		return 1;
 	}
-	FILE *destfile = fopen(dest, "w");
+	FILE *destfile = fopen(dest, "wb");
 	if(!destfile){
 		perror("Error opening destination file");
 		return 1;
