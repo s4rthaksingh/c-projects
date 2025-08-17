@@ -2,6 +2,10 @@
 
 int main(int argc, char *argv[]){
 
+	if(argc < 2){
+		printf("Usage : %s <text>\n", argv[0]);
+		return 1;
+	}
 	char *dest = argv[1];	
 
 	
@@ -15,7 +19,7 @@ int main(int argc, char *argv[]){
 
 	for(int i = 2; i < argc; i++)
 		fprintf(destfile, "%s ", argv[i]);
-
+	fprintf(destfile, "\n");
 	printf("Successfully written to %s\n", dest);
 	fclose(destfile);
 	return 0;
