@@ -3,20 +3,14 @@
 
 int main(){
 	size_t len = 0;
-	char c;
 	char userfilename[20];
 	char filename[20] = "data.txt";
-	printf("Enter the filename you want to store text in (leave blank for 'data.txt') : ");
-	scanf("%s", userfilename);
-	if(strlen(userfilename) > 3)
-		strcpy(filename, userfilename);
-	FILE *fptr = fopen(filename, "a");
-	printf("\nEnter a new note, and press CTRL+D to end : ");
-	fprintf(fptr, "- ");
-	while((c = getchar()) != EOF){
-		fputc(c,fptr);
+	printf("1. View notes\n2. Add a note\n3. Remove a note\n4. Update a note\n\nEnter your choice number : ");
+	int c = getchar();
+	if(c < 1 || c > 4){
+		printf("Invalid choice.\n");
+		return 1;
 	}
-	printf("\nSuccessfully written data to file : %s\n", filename);
-	fclose(fptr);
+	printf("Your choice : %c\n", c);
 	return 0;
 };
