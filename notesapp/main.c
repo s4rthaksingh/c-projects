@@ -7,10 +7,13 @@ int main(){
 	char filename[20] = "data.txt";
 	printf("1. View notes\n2. Add a note\n3. Remove a note\n4. Update a note\n\nEnter your choice number : ");
 	int c = getchar();
-	if(c < 1 || c > 4){
+	
+	
+	switch(c){
+		
+	default:
 		printf("Invalid choice.\n");
-		return 1;
-	}
-	printf("Your choice : %c\n", c);
+		break;	
+	}	
 	return 0;
 };
