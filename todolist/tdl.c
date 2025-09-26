@@ -105,5 +105,4 @@ void main(){
                 printf("Cleared your list.\n");
 		break;
 	}
-	printf("Operation completed.\n");
 }
