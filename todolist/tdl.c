@@ -104,5 +104,6 @@ void main(){
 		remove(filename);
                 printf("Cleared your list.\n");
 		break;
+	printf("Operation completed");
 	}
 }
